@@ -2,6 +2,7 @@ package main
 
 import (
 	"database/sql"
+	"gotodo/logging"
 	"log"
 	"net/http"
 	"text/template"
@@ -16,9 +17,10 @@ type Task struct {
 }
 
 func main() {
+	logging.LoggingSettings("log/development.log")
 	http.HandleFunc("/", index)
 	http.HandleFunc("/create", create)
-	http.HandleFunc("/destory", destory)
+	// http.HandleFunc("/destory", destory)
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
 
@@ -75,10 +77,10 @@ func create(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/", http.StatusMovedPermanently)
 }
 
-func destory(w http.ResponseWriter, r *http.Request) {
-	db := dbConn()
-	if r.Method == "POST" {
-		
-	}
-	http.Redirect(w, r, "/", http.StatusMovedPermanently)
-}
+// func destory(w http.ResponseWriter, r *http.Request) {
+// 	db := dbConn()
+// 	if r.Method == "POST" {
+
+// 	}
+// 	http.Redirect(w, r, "/", http.StatusMovedPermanently)
+// }
