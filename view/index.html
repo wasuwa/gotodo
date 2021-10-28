@@ -20,10 +20,11 @@
       <input type="submit" value="作成">
     </div>
   </form>
-  {{ range $i, $v := . }}
+  {{ range . }}
     <section>
-      <p>タイトル: {{ $v.Title }}</p>
-      <p>説明　　: {{ $v.Describe }}</p>
+      <p>タイトル: {{ .Title }}</p>
+      <p>説明　　: {{ .Describe }}</p>
+      <a href="/delete?id={{ .Id }}">[完了]</a>
     </section>
   {{ end }}
 

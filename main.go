@@ -20,6 +20,7 @@ func main() {
 	logging.LoggingSettings("log/development.log")
 	http.HandleFunc("/", index)
 	http.HandleFunc("/create", create)
+	http.HandleFunc("/destroy", destroy)
 	log.Fatalln(http.ListenAndServe(":8080", nil))
 }
 
@@ -72,6 +73,18 @@ func create(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(http.StatusInternalServerError)
 			log.Fatalln(err)
 		}
+	}
+	http.Redirect(w, r, "/", http.StatusMovedPermanently)
+}
+
+func destroy(w http.ResponseWriter, r *http.Request) {
+	db := dbConn()
+	sql := "DELETE FROM tasks WHERE id = $1"
+	id := r.URL.Query().Get("id")
+	_, err := db.Exec(sql, id)
+	if err != nil {
+		w.WriteHeader(http.StatusNotFound)
+		log.Fatalln(err)
 	}
 	http.Redirect(w, r, "/", http.StatusMovedPermanently)
 }
