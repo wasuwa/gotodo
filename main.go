@@ -3,18 +3,13 @@ package main
 import (
 	"database/sql"
 	"gotodo/logging"
+	"gotodo/models"
 	"log"
 	"net/http"
 	"text/template"
 
 	_ "github.com/lib/pq"
 )
-
-type Task struct {
-	Id       int
-	Title    string
-	Describe string
-}
 
 func main() {
 	logging.LoggingSettings("log/development.log")
@@ -35,7 +30,7 @@ func dbConn() (db *sql.DB) {
 	return db
 }
 
-var templates = template.Must(template.ParseGlob("view/*"))
+var templates = template.Must(template.ParseGlob("views/*"))
 
 func Index(w http.ResponseWriter, r *http.Request) {
 	db := dbConn()
@@ -45,9 +40,9 @@ func Index(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusNotFound)
 		log.Fatalln(err)
 	}
-	var ts []Task
+	var ts []models.Task
 	for rows.Next() {
-		var t Task
+		var t models.Task
 		err := rows.Scan(&t.Id, &t.Title, &t.Describe)
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
@@ -84,7 +79,7 @@ func Edit(w http.ResponseWriter, r *http.Request) {
 	sql := "SELECT * FROM tasks WHERE id = $1"
 	id := r.URL.Query().Get("id")
 	row := db.QueryRow(sql, id)
-	var t Task
+	var t models.Task
 	err := row.Scan(&t.Id, &t.Title, &t.Describe)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)

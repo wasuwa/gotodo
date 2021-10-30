@@ -1,6 +1,7 @@
 package main
 
 import (
+	"gotodo/models"
 	"net/url"
 	"strconv"
 	"testing"
@@ -44,7 +45,7 @@ func fetch_latest_id() string {
 	db := dbConn()
 	sql := "SELECT id FROM tasks ORDER BY id DESC LIMIT 1"
 	row := db.QueryRow(sql)
-	var ts Task
+	var ts models.Task
 	row.Scan(&ts.Id)
 	return strconv.Itoa(ts.Id)
 }
