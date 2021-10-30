@@ -33,12 +33,12 @@ func TestUpdate(t *testing.T) {
 	assert.HTTPRedirect(update, "POST", "localhost:3000/update", v, nil)
 }
 
-// func TestDestroy(t *testing.T) {
-// 	assert := assert.New(t)
-// 	id := fetch_latest_id()
-// 	v := url.Values{"id": []string{id}}
-// 	assert.HTTPStatusCode(update, "destroy", "localhost:3000/destroy", v, 301, nil)
-// }
+func TestDestroy(t *testing.T) {
+	assert := assert.New(t)
+	id := fetch_latest_id()
+	v := url.Values{"id": []string{id}}
+	assert.HTTPRedirect(destroy, "POST", "localhost:3000/destroy", v, nil)
+}
 
 func fetch_latest_id() string {
 	db := dbConn()
