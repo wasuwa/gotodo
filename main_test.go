@@ -26,6 +26,13 @@ func TestEdit(t *testing.T) {
 	assert.HTTPSuccess(edit, "GET", "localhost:3000/edit", v, nil)
 }
 
+func TestUpdate(t *testing.T) {
+	assert := assert.New(t)
+	id := fetch_latest_id()
+	v := url.Values{"id": []string{id}}
+	assert.HTTPStatusCode(update, "POST", "localhost:3000/update", v, 301, nil)
+}
+
 func fetch_latest_id() string {
 	db := dbConn()
 	sql := "SELECT id FROM tasks ORDER BY id DESC LIMIT 1"
