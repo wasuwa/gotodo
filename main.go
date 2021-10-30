@@ -95,7 +95,16 @@ func edit(w http.ResponseWriter, r *http.Request) {
 
 func update(w http.ResponseWriter, r *http.Request) {
 	db := dbConn()
-	sql := 
+	sql := "UPDATE tasks SET title = $1,describe = $2 WHERE id = $3"
+	id := r.URL.Query().Get("id")
+	t := r.FormValue("title")
+	d := r.FormValue("describe")
+	_, err := db.Exec(sql, t, d, id)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		log.Fatalln(err)
+	}
+	http.Redirect(w, r, "/", http.StatusMovedPermanently)
 }
 
 func destroy(w http.ResponseWriter, r *http.Request) {
