@@ -18,11 +18,11 @@ type Task struct {
 
 func main() {
 	logging.LoggingSettings("log/development.log")
-	http.HandleFunc("/", index)
-	http.HandleFunc("/create", create)
-	http.HandleFunc("/edit", edit)
-	http.HandleFunc("/update", update)
-	http.HandleFunc("/destroy", destroy)
+	http.HandleFunc("/", Index)
+	http.HandleFunc("/create", Create)
+	http.HandleFunc("/edit", Edit)
+	http.HandleFunc("/update", Update)
+	http.HandleFunc("/destroy", Destroy)
 	log.Fatalln(http.ListenAndServe(":8080", nil))
 }
 
@@ -37,7 +37,7 @@ func dbConn() (db *sql.DB) {
 
 var templates = template.Must(template.ParseGlob("view/*"))
 
-func index(w http.ResponseWriter, r *http.Request) {
+func Index(w http.ResponseWriter, r *http.Request) {
 	db := dbConn()
 	sql := "SELECT * FROM tasks ORDER BY id DESC"
 	rows, err := db.Query(sql)
@@ -58,7 +58,7 @@ func index(w http.ResponseWriter, r *http.Request) {
 	templates.ExecuteTemplate(w, "index.html", ts)
 }
 
-func create(w http.ResponseWriter, r *http.Request) {
+func Create(w http.ResponseWriter, r *http.Request) {
 	db := dbConn()
 	if r.Method == "POST" {
 		sql := "INSERT INTO tasks (title, describe) VALUES ($1, $2)"
@@ -79,7 +79,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/", http.StatusMovedPermanently)
 }
 
-func edit(w http.ResponseWriter, r *http.Request) {
+func Edit(w http.ResponseWriter, r *http.Request) {
 	db := dbConn()
 	sql := "SELECT * FROM tasks WHERE id = $1"
 	id := r.URL.Query().Get("id")
@@ -93,7 +93,7 @@ func edit(w http.ResponseWriter, r *http.Request) {
 	templates.ExecuteTemplate(w, "edit.html", t)
 }
 
-func update(w http.ResponseWriter, r *http.Request) {
+func Update(w http.ResponseWriter, r *http.Request) {
 	db := dbConn()
 	sql := "UPDATE tasks SET title = $1,describe = $2 WHERE id = $3"
 	id := r.URL.Query().Get("id")
@@ -107,7 +107,7 @@ func update(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/", http.StatusMovedPermanently)
 }
 
-func destroy(w http.ResponseWriter, r *http.Request) {
+func Destroy(w http.ResponseWriter, r *http.Request) {
 	db := dbConn()
 	sql := "DELETE FROM tasks WHERE id = $1"
 	id := r.URL.Query().Get("id")

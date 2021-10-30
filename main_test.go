@@ -10,34 +10,34 @@ import (
 
 func TestIndex(t *testing.T) {
 	assert := assert.New(t)
-	assert.HTTPSuccess(index, "GET", "localhost:3000", nil, nil)
+	assert.HTTPSuccess(Index, "GET", "localhost:3000", nil, nil)
 }
 
 func TestCreate(t *testing.T) {
 	assert := assert.New(t)
 	v := url.Values{"title": []string{"ショッピングに行く"}, "describe": []string{"洋服を買う予定"}}
-	assert.HTTPRedirect(create, "POST", "localhost:3000/create", v, nil)
+	assert.HTTPRedirect(Create, "POST", "localhost:3000/create", v, nil)
 }
 
 func TestEdit(t *testing.T) {
 	assert := assert.New(t)
 	id := fetch_latest_id()
 	v := url.Values{"id": []string{id}}
-	assert.HTTPSuccess(edit, "GET", "localhost:3000/edit", v, nil)
+	assert.HTTPSuccess(Edit, "GET", "localhost:3000/edit", v, nil)
 }
 
 func TestUpdate(t *testing.T) {
 	assert := assert.New(t)
 	id := fetch_latest_id()
 	v := url.Values{"id": []string{id}}
-	assert.HTTPRedirect(update, "POST", "localhost:3000/update", v, nil)
+	assert.HTTPRedirect(Update, "POST", "localhost:3000/update", v, nil)
 }
 
 func TestDestroy(t *testing.T) {
 	assert := assert.New(t)
 	id := fetch_latest_id()
 	v := url.Values{"id": []string{id}}
-	assert.HTTPRedirect(destroy, "POST", "localhost:3000/destroy", v, nil)
+	assert.HTTPRedirect(Destroy, "POST", "localhost:3000/destroy", v, nil)
 }
 
 func fetch_latest_id() string {
