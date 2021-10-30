@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  {{ template "head" }}
+  <title>Edit</title>
+</head>
+<body>
+  {{ template "header" }}
+
+  <form action="/update" method="POST">
+    <div>
+      <label for="title">タイトル</label>
+      <input name="title" id="title" value="{{ .Title }}">
+    </div>
+    <div>
+      <label for="describe">説明</label>
+      <textarea name="describe" id="describe">{{ .Describe }}</textarea>
+    </div>
+    <div>
+      <input type="submit" value="更新">
+    </div>
+  </form>
+
+  {{ template "footer" }}
+</body>
+</html>
