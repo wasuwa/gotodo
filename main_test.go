@@ -16,7 +16,7 @@ func TestIndex(t *testing.T) {
 func TestCreate(t *testing.T) {
 	assert := assert.New(t)
 	v := url.Values{"title": []string{"ショッピングに行く"}, "describe": []string{"洋服を買う予定"}}
-	assert.HTTPStatusCode(create, "POST", "localhost:3000/create", v, 301, nil)
+	assert.HTTPRedirect(create, "POST", "localhost:3000/create", v, nil)
 }
 
 func TestEdit(t *testing.T) {
@@ -30,8 +30,15 @@ func TestUpdate(t *testing.T) {
 	assert := assert.New(t)
 	id := fetch_latest_id()
 	v := url.Values{"id": []string{id}}
-	assert.HTTPStatusCode(update, "POST", "localhost:3000/update", v, 301, nil)
+	assert.HTTPRedirect(update, "POST", "localhost:3000/update", v, nil)
 }
+
+// func TestDestroy(t *testing.T) {
+// 	assert := assert.New(t)
+// 	id := fetch_latest_id()
+// 	v := url.Values{"id": []string{id}}
+// 	assert.HTTPStatusCode(update, "destroy", "localhost:3000/destroy", v, 301, nil)
+// }
 
 func fetch_latest_id() string {
 	db := dbConn()
