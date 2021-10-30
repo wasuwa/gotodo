@@ -2,6 +2,7 @@ package main
 
 import (
 	"gotodo/controllers"
+	"gotodo/database"
 	"gotodo/models"
 	"net/url"
 	"strconv"
@@ -43,7 +44,7 @@ func TestDestroy(t *testing.T) {
 }
 
 func fetch_latest_id() string {
-	db := controllers.DbConn()
+	db := database.DbConn()
 	sql := "SELECT id FROM tasks ORDER BY id DESC LIMIT 1"
 	row := db.QueryRow(sql)
 	var ts models.Task
