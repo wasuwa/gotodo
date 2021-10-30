@@ -13,22 +13,11 @@ import (
 var templates = template.Must(template.ParseGlob("views/*"))
 
 func TaskIndex(w http.ResponseWriter, r *http.Request) {
-	db := database.DbConn()
-	sql := "SELECT * FROM tasks ORDER BY id DESC"
-	rows, err := db.Query(sql)
+	var t models.Task
+	ts, err := t.All()
 	if err != nil {
-		w.WriteHeader(http.StatusNotFound)
+		w.WriteHeader(http.StatusInternalServerError)
 		log.Fatalln(err)
-	}
-	var ts []models.Task
-	for rows.Next() {
-		var t models.Task
-		err := rows.Scan(&t.Id, &t.Title, &t.Describe)
-		if err != nil {
-			w.WriteHeader(http.StatusInternalServerError)
-			log.Fatalln(err)
-		}
-		ts = append(ts, t)
 	}
 	templates.ExecuteTemplate(w, "index.html", ts)
 }
