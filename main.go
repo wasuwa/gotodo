@@ -21,6 +21,7 @@ func main() {
 	http.HandleFunc("/", index)
 	http.HandleFunc("/create", create)
 	http.HandleFunc("/edit", edit)
+	http.HandleFunc("/update", update)
 	http.HandleFunc("/destroy", destroy)
 	log.Fatalln(http.ListenAndServe(":8080", nil))
 }
@@ -90,6 +91,11 @@ func edit(w http.ResponseWriter, r *http.Request) {
 		log.Fatalln(err)
 	}
 	templates.ExecuteTemplate(w, "edit.html", t)
+}
+
+func update(w http.ResponseWriter, r *http.Request) {
+	db := dbConn()
+	sql := 
 }
 
 func destroy(w http.ResponseWriter, r *http.Request) {

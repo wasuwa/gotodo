@@ -7,7 +7,7 @@
 <body>
   {{ template "header" }}
 
-  <form action="/update" method="POST">
+  <form action="/update?id={{ .Id }}" method="POST">
     <div>
       <label for="title">タイトル</label>
       <input name="title" id="title" value="{{ .Title }}">
