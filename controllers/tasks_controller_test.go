@@ -11,35 +11,30 @@ import (
 )
 
 func TestTaskIndex(t *testing.T) {
-	assert := assert.New(t)
-	assert.HTTPSuccess(TaskIndex, "GET", "localhost:3000", nil, nil)
+	assert.HTTPSuccess(t, TaskIndex, "GET", "localhost:3000", nil, nil)
 }
 
 func TestTaskCreate(t *testing.T) {
-	assert := assert.New(t)
 	v := url.Values{"title": []string{"ショッピングに行く"}, "describe": []string{"洋服を買う予定"}}
-	assert.HTTPRedirect(TaskCreate, "POST", "localhost:3000/create", v, nil)
+	assert.HTTPRedirect(t, TaskCreate, "POST", "localhost:3000/create", v, nil)
 }
 
 func TestTaskEdit(t *testing.T) {
-	assert := assert.New(t)
 	id := fetchLatestId()
 	v := url.Values{"id": []string{id}}
-	assert.HTTPSuccess(TaskEdit, "GET", "localhost:3000/edit", v, nil)
+	assert.HTTPSuccess(t, TaskEdit, "GET", "localhost:3000/edit", v, nil)
 }
 
 func TestTaskUpdate(t *testing.T) {
-	assert := assert.New(t)
 	id := fetchLatestId()
 	v := url.Values{"id": []string{id}}
-	assert.HTTPRedirect(TaskUpdate, "POST", "localhost:3000/update", v, nil)
+	assert.HTTPRedirect(t, TaskUpdate, "POST", "localhost:3000/update", v, nil)
 }
 
 func TestTaskDestroy(t *testing.T) {
-	assert := assert.New(t)
 	id := fetchLatestId()
 	v := url.Values{"id": []string{id}}
-	assert.HTTPRedirect(TaskDestroy, "POST", "localhost:3000/destroy", v, nil)
+	assert.HTTPRedirect(t, TaskDestroy, "POST", "localhost:3000/destroy", v, nil)
 }
 
 func fetchLatestId() string {
