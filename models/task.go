@@ -16,22 +16,17 @@ type Task struct {
 func (t *Task) All() ([]Task, error) {
 	db := database.DbConn()
 	sql := "SELECT * FROM tasks ORDER BY id DESC"
-	rows, _ := db.Query(sql)
-	ts, err := t.rowsToConvertSlice(rows)
-	if err != nil {
-		return nil, err
-	}
-	return ts, err
-}
-
-func (t *Task) rowsToConvertSlice(rows *sql.Rows) ([]Task, error) {
+	rows, err := db.Query(sql)
 	var ts []Task
+	if err != nil {
+		return ts, err
+	}
 	for rows.Next() {
 		err := rows.Scan(&t.Id, &t.Title, &t.Describe)
 		if err != nil {
-			return nil, err
+			return ts, err
 		}
 		ts = append(ts, *t)
 	}
-	return ts, nil
+	return ts, err
 }
