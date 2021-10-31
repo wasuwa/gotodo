@@ -9,7 +9,7 @@ import (
 	_ "github.com/lib/pq"
 )
 
-var templates = template.Must(template.ParseGlob("views/*"))
+var templates = template.Must(template.ParseGlob("../views/*"))
 
 func TaskIndex(w http.ResponseWriter, r *http.Request) {
 	var t models.Task
