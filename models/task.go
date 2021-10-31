@@ -1,7 +1,6 @@
 package models
 
 import (
-	"database/sql"
 	"gotodo/database"
 
 	_ "github.com/lib/pq"
