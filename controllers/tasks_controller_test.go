@@ -1,7 +1,6 @@
-package main
+package controllers
 
 import (
-	"gotodo/controllers"
 	"gotodo/database"
 	"gotodo/models"
 	"net/url"
@@ -11,36 +10,36 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestIndex(t *testing.T) {
+func TestTaskIndex(t *testing.T) {
 	assert := assert.New(t)
-	assert.HTTPSuccess(controllers.TaskIndex, "GET", "localhost:3000", nil, nil)
+	assert.HTTPSuccess(TaskIndex, "GET", "localhost:3000", nil, nil)
 }
 
-func TestCreate(t *testing.T) {
+func TestTaskCreate(t *testing.T) {
 	assert := assert.New(t)
 	v := url.Values{"title": []string{"ショッピングに行く"}, "describe": []string{"洋服を買う予定"}}
-	assert.HTTPRedirect(controllers.TaskCreate, "POST", "localhost:3000/create", v, nil)
+	assert.HTTPRedirect(TaskCreate, "POST", "localhost:3000/create", v, nil)
 }
 
-func TestEdit(t *testing.T) {
+func TestTaskEdit(t *testing.T) {
 	assert := assert.New(t)
 	id := fetch_latest_id()
 	v := url.Values{"id": []string{id}}
-	assert.HTTPSuccess(controllers.TaskEdit, "GET", "localhost:3000/edit", v, nil)
+	assert.HTTPSuccess(TaskEdit, "GET", "localhost:3000/edit", v, nil)
 }
 
-func TestUpdate(t *testing.T) {
+func TestTaskUpdate(t *testing.T) {
 	assert := assert.New(t)
 	id := fetch_latest_id()
 	v := url.Values{"id": []string{id}}
-	assert.HTTPRedirect(controllers.TaskUpdate, "POST", "localhost:3000/update", v, nil)
+	assert.HTTPRedirect(TaskUpdate, "POST", "localhost:3000/update", v, nil)
 }
 
-func TestDestroy(t *testing.T) {
+func TestTaskDestroy(t *testing.T) {
 	assert := assert.New(t)
 	id := fetch_latest_id()
 	v := url.Values{"id": []string{id}}
-	assert.HTTPRedirect(controllers.TaskDestroy, "POST", "localhost:3000/destroy", v, nil)
+	assert.HTTPRedirect(TaskDestroy, "POST", "localhost:3000/destroy", v, nil)
 }
 
 func fetch_latest_id() string {
