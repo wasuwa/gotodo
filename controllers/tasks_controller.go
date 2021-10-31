@@ -48,12 +48,11 @@ func TaskEdit(w http.ResponseWriter, r *http.Request) {
 }
 
 func TaskUpdate(w http.ResponseWriter, r *http.Request) {
-	db := database.DbConn()
-	sql := "UPDATE tasks SET title = $1,describe = $2 WHERE id = $3"
+	var t models.Task
 	id := r.URL.Query().Get("id")
-	t := r.FormValue("title")
+	ttl := r.FormValue("title")
 	d := r.FormValue("describe")
-	_, err := db.Exec(sql, t, d, id)
+	err := t.Update(id, ttl, d)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		log.Fatalln(err)

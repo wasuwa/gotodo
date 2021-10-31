@@ -50,3 +50,10 @@ func (t *Task) Find(id string) error {
 	err := row.Scan(&t.Id, &t.Title, &t.Describe)
 	return err
 }
+
+func (t *Task) Update(id, ttl, d string) error {
+	db := database.DbConn()
+	sql := "UPDATE tasks SET title = $1,describe = $2 WHERE id = $3"
+	_, err := db.Exec(sql, ttl, d, id)
+	return err
+}
