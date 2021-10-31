@@ -23,26 +23,26 @@ func TestTaskCreate(t *testing.T) {
 
 func TestTaskEdit(t *testing.T) {
 	assert := assert.New(t)
-	id := fetch_latest_id()
+	id := fetchLatestId()
 	v := url.Values{"id": []string{id}}
 	assert.HTTPSuccess(TaskEdit, "GET", "localhost:3000/edit", v, nil)
 }
 
 func TestTaskUpdate(t *testing.T) {
 	assert := assert.New(t)
-	id := fetch_latest_id()
+	id := fetchLatestId()
 	v := url.Values{"id": []string{id}}
 	assert.HTTPRedirect(TaskUpdate, "POST", "localhost:3000/update", v, nil)
 }
 
 func TestTaskDestroy(t *testing.T) {
 	assert := assert.New(t)
-	id := fetch_latest_id()
+	id := fetchLatestId()
 	v := url.Values{"id": []string{id}}
 	assert.HTTPRedirect(TaskDestroy, "POST", "localhost:3000/destroy", v, nil)
 }
 
-func fetch_latest_id() string {
+func fetchLatestId() string {
 	db := database.DbConn()
 	sql := "SELECT id FROM tasks ORDER BY id DESC LIMIT 1"
 	row := db.QueryRow(sql)
