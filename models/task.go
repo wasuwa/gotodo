@@ -42,3 +42,11 @@ func (t *Task) Create(ttl string, d string) error {
 	_, err := db.Exec(sql, ttl, d)
 	return err
 }
+
+func (t *Task) Find(id string) error {
+	db := database.DbConn()
+	sql := "SELECT * FROM tasks WHERE id = $1"
+	row := db.QueryRow(sql, id)
+	err := row.Scan(&t.Id, &t.Title, &t.Describe)
+	return err
+}

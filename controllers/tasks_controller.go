@@ -37,12 +37,9 @@ func TaskCreate(w http.ResponseWriter, r *http.Request) {
 }
 
 func TaskEdit(w http.ResponseWriter, r *http.Request) {
-	db := database.DbConn()
-	sql := "SELECT * FROM tasks WHERE id = $1"
-	id := r.URL.Query().Get("id")
-	row := db.QueryRow(sql, id)
 	var t models.Task
-	err := row.Scan(&t.Id, &t.Title, &t.Describe)
+	id := r.URL.Query().Get("id")
+	err := t.Find(id)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		log.Fatalln(err)
