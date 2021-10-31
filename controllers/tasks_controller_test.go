@@ -46,7 +46,7 @@ func fetch_latest_id() string {
 	db := database.DbConn()
 	sql := "SELECT id FROM tasks ORDER BY id DESC LIMIT 1"
 	row := db.QueryRow(sql)
-	var ts models.Task
-	row.Scan(&ts.Id)
-	return strconv.Itoa(ts.Id)
+	var t models.Task
+	row.Scan(&t.Id)
+	return strconv.Itoa(t.Id)
 }
