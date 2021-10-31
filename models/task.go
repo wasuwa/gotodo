@@ -29,3 +29,16 @@ func (t *Task) All() ([]Task, error) {
 	}
 	return ts, err
 }
+
+func (t *Task) Create(ttl string, d string) error {
+	db := database.DbConn()
+	sql := "INSERT INTO tasks (title, describe) VALUES ($1, $2)"
+	if ttl == "" {
+		ttl = "タイトルなし"
+	}
+	if d == "" {
+		d = "説明なし"
+	}
+	_, err := db.Exec(sql, ttl, d)
+	return err
+}

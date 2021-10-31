@@ -23,18 +23,11 @@ func TaskIndex(w http.ResponseWriter, r *http.Request) {
 }
 
 func TaskCreate(w http.ResponseWriter, r *http.Request) {
-	db := database.DbConn()
 	if r.Method == "POST" {
-		sql := "INSERT INTO tasks (title, describe) VALUES ($1, $2)"
-		t := r.FormValue("title")
+		var t models.Task
+		ttl := r.FormValue("title")
 		d := r.FormValue("describe")
-		if t == "" {
-			t = "タイトルなし"
-		}
-		if d == "" {
-			d = "説明なし"
-		}
-		_, err := db.Exec(sql, t, d)
+		err := t.Create(ttl, d)
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			log.Fatalln(err)
