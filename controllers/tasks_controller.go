@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"gotodo/database"
 	"gotodo/models"
 	"log"
 	"net/http"
@@ -61,10 +60,9 @@ func TaskUpdate(w http.ResponseWriter, r *http.Request) {
 }
 
 func TaskDestroy(w http.ResponseWriter, r *http.Request) {
-	db := database.DbConn()
-	sql := "DELETE FROM tasks WHERE id = $1"
+	var t models.Task
 	id := r.URL.Query().Get("id")
-	_, err := db.Exec(sql, id)
+	err := t.Destroy(id)
 	if err != nil {
 		w.WriteHeader(http.StatusNotFound)
 		log.Fatalln(err)

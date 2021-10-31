@@ -57,3 +57,10 @@ func (t *Task) Update(id, ttl, d string) error {
 	_, err := db.Exec(sql, ttl, d, id)
 	return err
 }
+
+func (t *Task) Destroy(id string) error {
+	db := database.DbConn()
+	sql := "DELETE FROM tasks WHERE id = $1"
+	_, err := db.Exec(sql, id)
+	return err
+}
